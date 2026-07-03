@@ -1,0 +1,184 @@
+{% extends 'albumi/base.html' %}
+
+{% block content %}
+
+<h1>Svi albumi ({{ albumi.count }})</h1>
+
+<form method="get">
+  <table>
+    <tr>
+      <td>Naslov:</td>
+      <td>
+        <input type="text" name="naslov" value="{{ f_naslov }}">
+      </td>
+      <td>Izvođač:</td>
+      <td>
+        <select name="izvodjac">
+          <option value="">— svi —</option>
+          {% for iz in izvodjaci %}
+            <option value="{{ iz.id }}" {% if f_izvodjac == iz.id|stringformat:"s" %}selected{% endif %}>
+              {{ iz.ime }}
+            </option>
+          {% endfor %}
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Žanr:</td>
+      <td>
+        <select name="zanr">
+          <option value="">— svi —</option>
+          {% for z in zanrovi %}
+            <option value="{{ z.id }}" {% if f_zanr == z.id|stringformat:"s" %}selected{% endif %}>
+              {{ z.naziv }}
+            </option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>Godina:</td>
+      <td>
+        <input type="number" name="godina" value="{{ f_godina }}" style="width:80px;">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Sortiraj:</td>
+      <td colspan="3">
+        <select name="sort">
+          <option value="">-- Sortiraj --</option>
+          <option value="abecedno" {% if sort == 'abecedno' %}selected{% endif %}>
+            A-Z
+          </option>
+          <option value="cijena_asc" {% if sort == 'cijena_asc' %}selected{% endif %}>
+            Jeftinije prvo
+          </option>
+          <option value="cijena_desc" {% if sort == 'cijena_desc' %}selected{% endif %}>
+            Skuplje prvo
+          </option>
+          <option value="najnovije_dodano" {% if sort == 'najnovije_dodano' %}selected{% endif %}>
+            Najnovije dodano
+          </option>
+          <option value="najprodavanije" {% if sort == 'najprodavanije' %}selected{% endif %}>
+            Najprodavanije
+          </option>
+          <option value="najocjenjeniji" {% if sort == 'najocjenjeniji' %}selected{% endif %}>
+            Najbolje ocijenjeni
+          </option>
+          <option value="ai_score" {% if sort == 'ai_score' %}selected{% endif %}>
+        AI Score
+          </option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4">
+        <button type="submit">Filtriraj</button>
+        &nbsp;
+        <a href="{% url 'albumi:popis' %}">Resetiraj</a>
+      </td>
+    </tr>
+  </table>
+</form>
+
+<hr>
+
+<table border="1" cellpadding="8">
+  <tr>
+    <th></th>
+    <th>Naslov</th>
+    <th>Izvođač</th>
+    <th>Žanr</th>
+    <th>Godina</th>
+    <th>Cijena</th>
+    <th>Ocjena</th>
+    <th>AI Score</th>
+    <th></th>
+  </tr>
+
+  {% for album in albumi %}
+    <tr>
+      <td>  
+        {% if album.omot %}
+          <img 
+            src="{{ album.omot.url }}" 
+            width="100" 
+            height="100" 
+            style="object-fit:cover;">
+        {% endif %}
+      </td>
+
+      <td>
+        {{ album.naslov }}
+      </td>
+
+      <td>
+        <a href="{% url 'albumi:detalj_izvodjaca' album.izvodjac.pk %}">
+          {{ album.izvodjac }}
+        </a>
+      </td>
+
+      <td>
+        <a href="{% url 'albumi:detalj_zanra' album.zanr.pk %}">
+          {{ album.zanr }}
+        </a>
+      </td>
+
+      <td>
+        {{ album.godina }}
+      </td>
+
+      <td>
+        {{ album.cijena }}
+      </td>
+
+      <td> 
+        {% if album.prosjecna_ocjena %}
+          {{ album.prosjecna_ocjena|floatformat:1 }}
+        {% else %}
+          -
+        {% endif %}
+      </td>
+
+      <td>
+        {% if album.ai_score %}
+          <strong>{{ album.ai_score }}%</strong>
+          
+          {% if album.ai_score > 80 %}
+            <span style="color:green;">★★★★★</span>
+          {% elif album.ai_score > 60 %}
+            <span style="color:orange;">★★★★☆</span>
+          {% elif album.ai_score > 40 %}
+            <span style="color:orange;">★★★☆☆</span>
+          {% else %}
+            <span style="color:gray;">★★☆☆☆</span>
+          {% endif %}
+        {% else %}
+          -
+        {% endif %}
+      </td>
+
+      <td>
+        <a href="{% url 'albumi:detalj' album.pk %}">
+          Detalji
+        </a>
+        <br></br>
+        
+        {% if user.is_staff %}
+          <a href="{% url 'albumi:uredi' album.pk %}">
+            Uredi
+          </a>
+        {% endif %}
+      </td>
+    </tr>
+  {% empty %}
+    <tr>
+      <td colspan="9">
+        Nema albuma koji odgovaraju filterima.
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

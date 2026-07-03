@@ -1,0 +1,11 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h2>izvodjaci s brojem albuma</h2>
+{% if izvodjaci %} 
+    {% for izvodjac in izvodjaci%}
+        {{izvodjac}}-{{izvodjac.broj_albuma}}<br></br>
+    {% endfor %}
+
+{% endif %}
+
+{% endblock %}

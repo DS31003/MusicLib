@@ -1,0 +1,38 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h1>Moja kolekcija</h1>
+
+{% if kupljeni_albumi %}
+<table>
+    <tr>
+        <th></th>
+        <th>Album</th>
+        <th>Izvođač</th>
+        <th>Žanr</th>
+        <th>Cijena</th>
+        <th>Datum kupnje</th>
+        <th></th>
+    </tr>
+    {% for prodaja in kupljeni_albumi %}
+    <tr>
+        <td>
+        {% if prodaja.album.omot %}
+            <img src="{{ prodaja.album.omot.url }}" width="100" alt="omot">
+        {% endif %}
+        </td>
+        <td>{{ prodaja.album.naslov }}</td>
+        <td> <a href="{% url 'albumi:detalj_izvodjaca' prodaja.album.izvodjac.pk %}"> {{ prodaja.album.izvodjac }}</td>
+        <td>{{ prodaja.album.zanr }}</td>
+        <td>{{ prodaja.cijena }}€</td>
+        <td>{{ prodaja.datum|date:"d.m.Y" }}</td>
+        <td><a href="{% url 'albumi:detalj' prodaja.album.pk %}">Detalji</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>Još nisi kupio nijedan album!</p>
+{% endif %}
+<br></br>
+<a href="{% url 'albumi:popis' %}">Svi albumi</a>
+
+{% endblock %}

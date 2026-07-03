@@ -1,0 +1,33 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h1>Pretraga albuma</h1>
+<form method="get" action="{% url 'albumi:rezultati_pretrage' %}">
+    <p>
+        <label>Godina:</label>
+        <input type="number" name="godina" placeholder="npr. 1990">
+    </p>
+    <p>
+        <label>Država izvođača:</label>
+        <input type="text" name="drzava" placeholder="npr. UK">
+    </p>
+    <p>
+        <label>Žanr:</label>
+        <select name="zanr">
+            <option value="">-- Svi žanrovi --</option>
+            {% for zanr in zanrovi %}
+                <option value="{{ zanr.pk }}">{{ zanr.naziv }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        <label>Izvođač:</label>
+        <select name="izvodjac">
+            <option value="">-- Svi izvođači --</option>
+            {% for izvodjac in izvodjaci %}
+                <option value="{{ izvodjac.pk }}">{{ izvodjac.ime }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <button type="submit">Pretraži</button>
+</form>
+{% endblock %}

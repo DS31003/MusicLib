@@ -1,0 +1,11 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+{% if korisnik %}
+    {{korisnik.username}}<br>
+    {% if prodaje %}
+        {% for prodaja in prodaje%}
+            {{prodaja.album.naslov}}<br>
+        {% endfor %}
+    {% endif%}
+{% endif %}
+{% endblock %}

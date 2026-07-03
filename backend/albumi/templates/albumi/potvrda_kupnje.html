@@ -1,0 +1,13 @@
+{% extends albumi/base.html %}
+{% block content %}
+
+<h1>Potvrda kupnje</h1>
+<p>Želiš li kupiti <strong>{{ album.naslov }}</strong> za <strong>{{ album.cijena }}€</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" value="KUPI"></button>
+    <a href="{% url 'albumi:detalj' album.pk %}">Odustani</a>
+</form>
+
+{% endblock %}

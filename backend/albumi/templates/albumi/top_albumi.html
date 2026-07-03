@@ -1,0 +1,9 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+{% if albumi %}
+    {% for album in albumi %}
+     <a href="{% url 'albumi:detalj' album.pk %}">{{album}}</a> - kupljen {{album.broj_kupovina}} puta<br></br>
+    {% endfor %}
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,10 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h1>Korisnici s najvise kupljenih albuma</h1>
+
+{% if korisnici %}
+    {% for korisnik in korisnici%}
+       <a href="{% url 'albumi:korisnici_detalj' korisnik.pk %}"> {{ korisnik.username }} </a>: ukupno- {{korisnik.broj_kupljenih}} <br></br>
+    {%endfor%}
+{% endif %}
+{% endblock %}

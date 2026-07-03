@@ -1,0 +1,18 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h1>popis albuma s prosjecima</h1>
+
+{% if albumi %}
+    {% for album in albumi %}
+        {{ album }} -
+        {% if album.prosjecna_ocjena %}
+             {{ album.prosjecna_ocjena}}
+        {% else %}
+            Nema recenzija
+        {% endif%}
+        <br><br>
+    {% empty %}
+        nema albuma
+    {% endfor %}
+{% endif %}
+{% endblock %}

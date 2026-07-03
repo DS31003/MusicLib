@@ -1,0 +1,24 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h1>Rezultati pretrage</h1>
+
+{% if godina %}
+    <p>Godina: {{ godina }}</p>
+{% endif %}
+{% if drzava %}
+    <p>Država: {{ drzava }}</p>
+{% endif %}
+
+{% for album in albumi %}
+    <p>
+        <a href="{% url 'albumi:detalj' album.pk %}">{{ album.naslov }}</a>
+        — {{ album.izvodjac.ime }}
+        — {{ album.zanr.naziv }}
+        — {{ album.godina }}
+    </p>
+{% empty %}
+    <p>Nema rezultata za zadanu pretragu.</p>
+{% endfor %}
+
+<a href="{% url 'albumi:forma_pretrage' %}">Nova pretraga</a>
+{% endblock %}

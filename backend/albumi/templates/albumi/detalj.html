@@ -1,0 +1,108 @@
+{% extends 'albumi/base.html' %}
+
+{% block content %}
+
+<h1>{{ album.naslov }}</h1>
+
+{% if album.omot %}
+    <img src="{{ album.omot.url }}" width="200" alt="omot">
+{% endif %}
+
+<br></br>
+
+{% if user.is_staff %}
+    <a href="{% url 'albumi:uredi' album.pk %}">Uredi</a> <a href="{% url 'albumi:obrisi' album.pk %}">Obriši</a>
+{% endif %}
+
+{% if user.is_authenticated and not user.is_staff and not je_zaposlenik %}
+<div style="display:flex; gap:10px; align-items:center;">
+    {% if not vec_kupio %}
+        <form method="post" action="{% url 'albumi:kupi' album.pk %}">
+            {% csrf_token %}
+            <button type="submit">Kupi za {{ album.cijena }}€</button>
+        </form>
+    {% endif %}
+    
+    {% if vec_kupio and not vec_recenzirao %}
+        <a href="{% url 'albumi:dodaj_recenziju' album.pk %}">Dodaj recenziju</a>
+    {% endif %}
+</div>
+{% endif %}
+
+<br></br>
+
+<div style="display:flex; gap:20px; align-items:flex-start;">
+<div class="kartice" style="flex:1;">
+    <p><strong>Izvođač:</strong> <a href="{% url 'albumi:detalj_izvodjaca' album.izvodjac.pk %}">{{ album.izvodjac }}</a></p>
+    <p><strong>Žanr:</strong> {{ album.zanr }}</p>
+    <p><strong>Godina:</strong> {{ album.godina }}</p>
+    <p><strong>Broj pjesama:</strong> {{ album.broj_pjesama }}</p>
+    <p><strong>Cijena:</strong> {{ album.cijena }}</p>
+    <p><strong>Trajanje:</strong> {{ album.trajanje_min }} min</p>
+    <p><strong>Opis:</strong> {{ album.opis }}</p>
+    <p>
+        {% if prosjecna_ocjena > 0 %}
+            Prosječna ocjena: <strong>{{ prosjecna_ocjena|floatformat:1 }} / 5</strong>
+            ({{ recenzije.count }} recenzija)
+        {% else %}
+            Nema recenzija ovog albuma.
+        {% endif %}
+    </p>
+</div>
+
+<br></br>
+
+<div style="flex:1;">
+<h2>Recenzije</h2>
+{% if recenzije %}
+    {% for recenzija in recenzije %}
+        <div class="kartice" style="margin-bottom: 15px;">
+        <p>
+            <strong>{{ recenzija.korisnik.username }}</strong> -
+            {{ recenzija.ocjena }} -
+            {{ recenzija.datum|date:"d.m.Y" }}
+        </p>
+        <p>{{ recenzija.tekst }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>Nema recenzija ovog albuma.</p>
+{% endif %}
+    </div>
+</div>
+
+<br><br>
+
+<h2>Moglo bi vas zanimati</h2>
+{% if slicni_albumi %}
+    <div style="display:flex; gap:15px; flex-wrap:wrap;">
+        {% for slicni in slicni_albumi %}
+        <div class="kartice" style="width:148px;">
+            {% if slicni.omot %}
+                <img src="{{ slicni.omot.url }}" style="width:100%; border-radius:6px;">
+            {% endif %}
+            <p><strong>{{ slicni.naslov }}</strong></p>
+            <p>{{ slicni.izvodjac }}</p>
+            <p>{{ slicni.cijena }}€</p>
+            <a href="{% url 'albumi:detalj' slicni.pk %}">Pogledaj</a>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Nema sličnih albuma.</p>
+{% endif %}
+
+<div class="footer_detalj">
+
+<a href="{% url 'albumi:popis' %}">Natrag na popis</a>
+<br></br>
+
+{% if user.is_authenticated and not user.is_staff and not je_zaposlenik%}
+    <a href="{% url 'albumi:kolekcija' %}">Natrag na svoju kolekciju</a>
+{% endif %}
+<br><br>
+</div>
+
+
+{% endblock %}

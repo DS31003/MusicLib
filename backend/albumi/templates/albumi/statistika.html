@@ -1,0 +1,55 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+
+<h1>Statistika prodaje</h1>
+
+<h2>Ukupno prodano albuma: <strong>{{ ukupno_prodano_albuma }}</strong></h2>
+
+<h2> Najprodavaniji albumi</h2>
+<table>
+    <tr>
+        <th>Album</th>
+        <th>Izvođač</th>
+        <th>Broj prodaja</th>
+    </tr>
+    {% for album in najprodavaniji_albumi %}
+    <tr>
+        <td>{{ album.naslov }}</td>
+        <td>{{ album.izvodjac }}</td>
+        <td>{{ album.broj_prodaja }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2> Najpopularniji žanrovi</h2>
+<table>
+    <tr>
+        <th>Žanr</th>
+        <th>Broj prodaja</th>
+    </tr>
+    {% for zanr in najpopularniji_zanrovi %}
+    <tr>
+        <td>{{ zanr.naziv }}</td>
+        <td>{{ zanr.broj_prodaja }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2> Najpopularniji izvođači</h2>
+<table>
+    <tr>
+        <th>Izvođač</th>
+        <th>Broj prodaja</th>
+    </tr>
+    {% for izvodjac in najpopularniji_izvodjaci %}
+    <tr>
+        <td>{{ izvodjac.ime }}</td>
+        <td>{{ izvodjac.broj_prodaja }}</td>
+    </tr>
+{% endfor %}
+</table>
+<br></br>
+<a href="{% url 'albumi:popis' %}">Svi albumi</a>
+
+
+{% endblock %}

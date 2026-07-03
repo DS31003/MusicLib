@@ -1,0 +1,10 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h1>Uredi: {{ izvodjac.ime }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" onclick="return confirm('Jesi li siguran da želiš urediti {{ izvodjac.ime }}?')">Spremi</button>
+    <a href="{% url 'albumi:detalj_izvodjaca' izvodjac.pk %}">Odustani</a>
+</form>
+{% endblock %}

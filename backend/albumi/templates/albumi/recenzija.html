@@ -1,0 +1,15 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+
+<h1>Recenzija za {{ album.naslov }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Spremi recenziju</button>
+</form>
+<br></br>
+
+<a href="{% url 'albumi:detalj' album.pk %}">Natrag na {{ album.naslov }}</a>
+
+{% endblock %}

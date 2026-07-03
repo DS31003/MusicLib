@@ -1,0 +1,12 @@
+{% extends 'albumi/base.html' %} 
+{% block content %}
+<h1>Brisanje albuma</h1>
+<p>Stvarno želiš obrisati album <strong>{{ album.naslov }}</strong>?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Da, obriši</button>
+  <a href="{% url 'albumi:detalj' album.pk %}">Odustani</a>
+</form>
+
+{% endblock %}

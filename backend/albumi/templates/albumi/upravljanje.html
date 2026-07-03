@@ -1,0 +1,42 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+
+<h1>Upravljanje</h1>
+
+<div style="display:flex; gap:20px;">
+
+    <div class="kartice" style="flex:1;">
+        <h2>Dodaj žanr</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ zanr_form.as_p }}
+            <button type="submit" name="dodaj_zanr">Dodaj žanr</button>
+        </form>
+
+        <h3>Postojeći žanrovi:</h3>
+        <ul>
+            {% for zanr in zanrovi %}
+                <li>{{ zanr.naziv }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="kartice" style="flex:1;">
+        <h2>Dodaj izvođača</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ izvodjac_form.as_p }}
+            <button type="submit" name="dodaj_izvodjaca">Dodaj izvođača</button>
+        </form>
+
+        <h3>Postojeći izvođači:</h3>
+        <ul>
+            {% for izvodjac in izvodjaci %}
+                <li>{{ izvodjac.ime }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+{% endblock %}

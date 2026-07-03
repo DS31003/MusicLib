@@ -1,0 +1,16 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h2>moji albumi</h2>
+{% if prodaje %}
+    {% for prodaja in prodaje %}
+        {{prodaja.album}}<br>
+    {% endfor %}
+{% endif %}
+
+<h2>moje recenzije</h2>
+{% if recenzije %}
+    {% for recenzija in recenzije%}
+        {{recenzija.album}} - {{recenzija.tekst}}<br>
+    {% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+
+<h1>Moje recenzije</h1>
+
+{%if recenzije%}
+    {%for recenzija in recenzije%}
+        <strong>Album: {{recenzija.album.naslov}}, Izvodjac: {{recenzija.album.izvodjac}}, Datum recenziranja: {{recenzija.datum}} <br></br>
+        
+    {%endfor%}
+{%else%}
+{% endif %}
+
+{% endblock %}

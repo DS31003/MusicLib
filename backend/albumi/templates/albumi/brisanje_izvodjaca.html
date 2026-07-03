@@ -1,0 +1,11 @@
+{% extends 'albumi/base.html' %} 
+{% block content %}
+<h1>Brisanje izvodjaca</h1>
+<p>Sigurno zelis izbrisati izvodjaca {{izvodjac.ime}}?</p>
+
+<form method='post'>
+    {% csrf_token %}
+    <button type="submit" onclick="Jesi li siguran">Brisanje</button>
+    <a href="{% url 'albumi:detalj_izvodjaca' izvodjac.pk %}">Odustani</a>
+</form>
+{% endblock %}

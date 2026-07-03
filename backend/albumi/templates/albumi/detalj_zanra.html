@@ -1,0 +1,8 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+<h1>{{ zanr }} - ocjena:{{ prosjecna_ocjena }} - prosjecna cijena:{{prosjecna_cijena}}$</h1>
+
+{% for album in albumi%}
+    {{ album }} <br></br>
+{% endfor %}
+{% endblock%}

@@ -1,0 +1,64 @@
+{% extends 'albumi/base.html' %}
+{% block content %}
+
+<h1>{{ izvodjac.ime }}</h1>
+
+<div class="kartice" style="max-width:400px;">
+    {% if izvodjac.drzava %}
+        <p><strong>Država:</strong> {{ izvodjac.drzava }}</p>
+    {% endif %}
+    {% if izvodjac.godina_osnivanja %}
+        <p><strong>Godina osnivanja:</strong> {{ izvodjac.godina_osnivanja }}</p>
+    {% endif %}
+    <p><strong>Broj albuma:</strong> {{ albumi.count }}</p>
+</div>
+
+<br></br>
+
+{% if user.is_staff %}
+    <a href="{% url 'albumi:uredi_izvodjaca' izvodjac.pk %}">Uredi izvođača</a>
+    <a href="{% url 'albumi:obrisi_izvodjaca' izvodjac.pk %}">Obrisi izvođača</a>
+{% endif %}
+
+<br></br>
+
+<h2>Albumi</h2>
+<div style="display:flex; gap:15px; flex-wrap:wrap;">
+    {% for album in albumi %}
+    <div class="kartice" style="width:148px;">
+        {% if album.omot %}
+            <img src="{{ album.omot.url }}" style="width:100%; border-radius:6px;">
+        {% endif %}
+        <p><strong>{{ album.naslov }}</strong></p>
+        <p>{{ album.godina }}</p>
+        <p>{{ album.cijena }}€</p>
+        <a href="{% url 'albumi:detalj' album.pk %}">Pogledaj</a>
+    </div>
+    {% endfor %}
+
+</div>
+<br></br>
+
+<h2>Recenzije albuma - Prosjecna ocjena {{prosjecna_ocjena}}</h2>
+
+<div class="kartice" style="max-width:400px;">
+    {% for album in albumi %}
+        {%if album.recenzije.all%}
+            <h3>{{album.naslov}}</h3>
+            {% for recenzija in album.recenzije.all %}
+                {{recenzija.korisnik.username}}-{{recenzija.ocjena}}/5
+            {% endfor %}
+        {%endif%}
+        {%empty%}
+
+    {% endfor %}
+
+    </div>
+
+<br>
+
+<div class="footer_detalj">
+    <a href="{% url 'albumi:popis' %}">Natrag na popis</a>
+</div>
+
+{% endblock %}
