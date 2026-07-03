@@ -45,6 +45,6 @@ for album in Album.objects.all():  # all() da prepiše stare loše slike
             album.save()
             print(f'  ✅ OK')
         except Exception as e:
-            print(f'  ❌ Greška: {e}')
+            print(f'  Greška: {e}')
     else:
-        print(f'  ❌ Nije pronađen')
+        print(f'  Nije pronađen')
